@@ -14,7 +14,7 @@
     "clean": "rimraf ./dist"
   },
   "author": "Daniel Gacitua",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
