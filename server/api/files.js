@@ -1,7 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import GridFsStorage from 'multer-gridfs-storage';
-import GridStream from 'gridfs-stream';
 
 import * as database from '../utils/database';
 
@@ -26,8 +24,8 @@ router.get('/file/:filename', (req, res) => {
   database.gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files || files.length === 0) {
       return res.status(404).json({
-        responseCode: 1,
-        responseMessage: 'error'
+        statusCode: 1,
+        message: 'File not found'
       });
     }
     // create read stream
@@ -47,14 +45,22 @@ router.get('/file/:filename', (req, res) => {
 router.get('/files', (req, res) => {
   let filesData = [];
   let count = 0;
-  database.gfs.collection('ctFiles'); // set the collection to look up into
+  database.gfs.collection('files'); // set the collection to look up into
 
-  gfs.files.find({}).toArray((err, files) => {
+  database.gfs.files.find({}).toArray((err, files) => {
     // Error checking
+    if (err) {
+      console.error(err);
+      return res.status(404).json({
+        statusCode: 1,
+        message: 'Query Error'
+      });
+    }
+    // Empty results
     if (!files || files.length === 0) {
       return res.status(404).json({
-        responseCode: 1,
-        responseMessage: "error"
+        statusCode: 1,
+        message: 'Files not found'
       });
     }
     // Loop through all the files and fetch the necessary information
