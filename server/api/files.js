@@ -16,7 +16,7 @@ router.post('/upload', (req, res) => {
   });
 });
 
-// TODO
+// Route for getting file by filename
 router.get('/file/:filename', (req, res) => {
   database.gfs.collection('files'); //set collection name to lookup into
 
@@ -40,7 +40,6 @@ router.get('/file/:filename', (req, res) => {
   });
 });
 
-// TODO
 // Route for getting all the files
 router.get('/files', (req, res) => {
   let filesData = [];
